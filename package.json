@@ -1,0 +1,108 @@
+{
+  "name": "typescript-bootstrap",
+  "version": "1.0.2",
+  "description": "A TypeScript bootstrap project.",
+  "main": "./lib/main.umd.ts",
+  "module": "./lib/main.es.js",
+  "types": "./lib/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "bundle": "npm run build; rollup-c",
+    "clean": "rm -rf build/* dist/* docs/* lib/*",
+    "commit": "git add --all && git-cz",
+    "coverage": "nyc report --reporter=text-lcov > coverage.lcov && codecov",
+    "docs": "typedoc --excludeExternals --externalPattern \"node_modules/**\" --ignoreCompilerErrors --name TypeScript\\ Bootstrap --out docs/ --mode file --module umd --target ESNEXT --readme none src/*",
+    "lint": "eslint -c .eslintrc.json src/**/*.ts --quiet",
+    "lint:fix": "eslint -c .eslintrc.json src/**/*.ts --fix --quiet",
+    "semantic-release": "semantic-release",
+    "setup:all": "npm run setup:semantic-release && npm run setup:commitizen && npm run setup:update-package-json",
+    "setup:update-package-json": "sed -i .orig '3s/.*/  \"version\": \"0.0.0-semantically-released\",/' package.json",
+    "setup:commitizen": "commitizen init cz-conventional-changelog --save-dev --save-exact",
+    "setup:semantic-release": "semantic-release-cli setup",
+    "test": "npm run test:all",
+    "test:all": "jest --coverage",
+    "test:functional": "jest test/functional/**/*\\.spec\\.[jt]s",
+    "test:integration": "jest test/integration/**/*\\.spec\\.[jt]s",
+    "test:unit": "jest test/unit/**/*\\.spec\\.[jt]s",
+    "watch": "tsc; rollup -c --watch.exclude \"node_modules/**\" "
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/srepollock/typescript-bootstrap.git"
+  },
+  "keywords": [
+    "typescript",
+    "nodejs",
+    "commitizen",
+    "semantic-release",
+    "codecov"
+  ],
+  "author": "Spencer Pollock <spencer@spollock.ca>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/srepollock/typescript-bootstrap/issues"
+  },
+  "homepage": "http://spollock.ca/typescript-bootstrap/",
+  "dependencies": {},
+  "devDependencies": {
+    "@types/jest": "^24.0.18",
+    "@types/node": "^12.7.2",
+    "@typescript-eslint/eslint-plugin": "^2.0.0",
+    "@typescript-eslint/eslint-plugin-tslint": "^2.0.0",
+    "@typescript-eslint/parser": "^2.0.0",
+    "babel-jest": "^24.8.0",
+    "codecov": "^3.2.0",
+    "commitizen": "^3.0.5",
+    "cz-conventional-changelog": "^2.1.0",
+    "eslint": "^6.2.0",
+    "jest": "^24.9.0",
+    "rollup": "^1.20.3",
+    "rollup-plugin-node-builtins": "^2.1.2",
+    "rollup-plugin-node-globals": "^1.4.0",
+    "rollup-plugin-typescript2": "^0.22.0",
+    "semantic-release": "^15.13.3",
+    "semantic-release-cli": "^4.1.0",
+    "ts-jest": "^24.0.2",
+    "tslint-to-eslint-config": "^0.2.4",
+    "typedoc": "^0.13.0",
+    "typescript": "^3.5.3"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  },
+  "jest": {
+    "coverageDirectory": "<rootDir>/coverage",
+    "coverageReporters": [
+      "lcov",
+      "text"
+    ],
+    "coverageThreshold": {
+      "global": {
+        "functions": 70,
+        "branches": 50,
+        "lines": 70,
+        "statements": 50
+      }
+    },
+    "preset": "ts-jest",
+    "moduleFileExtensions": [
+      "js",
+      "ts",
+      "tsx"
+    ],
+    "modulePaths": [
+      "<rootDir>"
+    ],
+    "verbose": true,
+    "collectCoverageFrom": [
+        "<rootDir>/src/"
+    ],
+    "coveragePathIgnorePatterns": [
+      "<rootDir>/node_modules/"
+    ],
+    "testPathIgnorePatterns": [
+    ]
+  }
+}

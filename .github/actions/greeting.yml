@@ -1,0 +1,13 @@
+name: Greetings
+
+on: [pull_request, issues]
+
+jobs:
+  greeting:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/first-interaction@master
+      with:
+        repo-token: ${{ secrets.GITHUB_TOKEN }}
+        issue-message: 'Hey there!''  I really appreciate you taking the time to report an issue on the project. I'm a solo act on the project so far, so it's possible this won't be addressed swiftly. I'll be sure to respond as soon as I can, and with the more information you provide, the better I can pinpoint the issue! Anything you have that can help debug is great.'
+        pr-message: 'Hey there!''  I really appreciate you taking the time to add some updates to the project. I'll be sure to respond as soon as I can, so in the meantime, let the neat GitHub Actions run and do their thing!  ''Chat soon!'

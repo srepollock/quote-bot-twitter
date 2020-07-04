@@ -1,0 +1,118 @@
+name: Node.js CI/CD
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+      - feature/*
+      - hotfix/*
+
+jobs:
+  build_test:
+    name: Build and test on node ${{ matrix.node_version }} and ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        node_version: 
+          - 11
+          - 12
+        os: 
+          - macOS-latest
+          - ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@master
+      - name: Use Node.js ${{ matrix.node_version }}
+        uses: actions/setup-node@master
+        with:
+          version: ${{ matrix.node_version }}
+      - run: |
+          npm install
+          npm run build
+          npm run test
+  
+  coverage:
+    needs: build_test
+    name: Run coverage on Coveralls
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@master
+      - uses: actions/setup-node@master
+        with:
+          version: 12
+      - name: Install codecov
+        run: |
+          npm install -g codecov
+          npm install
+          npm run coverage
+
+  docs:
+    needs: build_test
+    name: Builds and deploys documentation
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@master
+      - uses: actions/setup-node@master
+        with:
+          version: 12
+      - name: Build Documentation
+        run: |
+          npm install
+          npm run docs
+
+  gh_pages:
+    needs: build_test
+    name: Deploys the README to GitHub Pages
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@master
+      - uses: actions/setup-node@master
+        with:
+          version: 12
+      - name: GitHub Pages Deploy
+        uses: maxheld83/ghpages@v0.2.1
+        env:
+          BUILD_DIR: "gh_pages"
+          GH_PAT: ${{secrets.GITHUB_TOKEN}}
+
+  publish_npm:
+    needs: [build_test, coverage, docs]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@master
+      - uses: actions/setup-node@master
+        with: 
+          version: 12
+          registry-url: https://registry.npmjs.org/
+      - name: Update package version
+        run: |
+          npm run semantic-release
+          npm publish
+        if: github.event == 'push'
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.npm_token }}
+
+  publish_github:
+    needs: [build_test, coverage, docs]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@master
+      - uses: actions/setup-node@master
+        with:
+          version: 12
+          registry-url: https://npm.pkg.github.com
+      - name: Update package version
+        run: |
+          git config user.name "Spencer Pollock"
+          git config user.email "spencer@spollock.ca"
+      - run: npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ github.token }}
