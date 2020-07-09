@@ -1,0 +1,53 @@
+{
+  "name": "twitter-quote-bot",
+  "version": "0.1.0",
+  "description": "A Twitter bot to tweet the quote of the day and it's tags",
+  "main": "handler.js",
+  "keywords": [
+    "nodejs",
+    "commitizen",
+    "semantic-release"
+  ],
+  "scripts": {
+    "start:local": "node server.js",
+    "start:serverless": "sls offline",
+    "precommit": "npm run encrypt",
+    "commit": "git add --all; git-cz",
+    "develop": "sls invoke local -f hello --verbose --stage dev",
+    "deploy:dev": "sls deploy",
+    "deploy": "sls deploy --prod",
+    "predeploy": "decrypt",
+    "encrypt": "sls encrypt --stage dev --password $PASSWORD ; sls encrypt --stage prod --password $PASSWORD",
+    "decrypt": "sls decrypt --stage dev --password $PASSWORD; sls decrypt --stage prod --password $PASSWORD",
+    "test": "npm run develop"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/srepollock/quote-bot-twitter.git"
+  },
+  "author": "Spencer Pollock <spencer@spollock.ca>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/srepollock/quote-bot-twitter/issues"
+  },
+  "homepage": "http://spollock.ca/quote-bot-twitter/",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "commitizen": "^4.1.2",
+    "cz-conventional-changelog": "^3.2.0",
+    "de-loggingsystem": "^1.1.1",
+    "express": "^4.17.1",
+    "faker": "^4.1.0",
+    "git-cz": "^4.7.0",
+    "oauth": "^0.9.15",
+    "request": "^2.88.2",
+    "rfdc": "^1.1.4",
+    "serverless-secrets-plugin": "^0.1.0",
+    "twit": "^2.2.11"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  }
+}
