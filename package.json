@@ -16,7 +16,7 @@
     "develop": "sls invoke local -f hello --verbose --stage dev",
     "deploy:dev": "sls deploy",
     "deploy": "sls deploy --prod",
-    "predeploy": "decrypt",
+    "predeploy": "npm run decrypt",
     "encrypt": "sls encrypt --stage dev --password $PASSWORD ; sls encrypt --stage prod --password $PASSWORD",
     "decrypt": "sls decrypt --stage dev --password $PASSWORD; sls decrypt --stage prod --password $PASSWORD",
     "test": "npm run develop"
