@@ -55,7 +55,7 @@ package:
 #    - include-me.js
 #    - include-me-dir/**
   exclude:
-    - node_modules
+    - node_modules/**
 #    - exclude-me.js
 #    - exclude-me-dir/**
 
