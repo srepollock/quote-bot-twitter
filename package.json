@@ -36,6 +36,7 @@
     "commitizen": "^4.1.2",
     "cz-conventional-changelog": "^3.2.0",
     "de-loggingsystem": "^1.1.1",
+    "dot-prop": ">=5.1.1",
     "express": "^4.17.1",
     "faker": "^4.1.0",
     "git-cz": "^4.7.0",
