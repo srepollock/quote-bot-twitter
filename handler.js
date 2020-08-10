@@ -23,7 +23,7 @@ module.exports.hello = async event => {
             logger.log(logger.LogLevel.debug, `Parsed rfdc object: ${data.contents.quotes[0].quote}`);
             var tags = "";
             for (const [key, value] of Object.entries(data.contents.quotes[0].tags)) {
-                let tag = ("").join(value.split("-"));
+                let tag = value.split("-").join("");
                 tags += `#${tag} `;
             };
             var tweet = `"${data.contents.quotes[0].quote}" - ${data.contents.quotes[0].author}\n\n\n${tags}`;
