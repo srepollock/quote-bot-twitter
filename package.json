@@ -44,7 +44,7 @@
     "oauth": "^0.9.15",
     "request": "^2.88.2",
     "rfdc": "^1.1.4",
-    "serverless": "^1.78.1",
+    "serverless": "^2.23.0",
     "serverless-secrets-plugin": "^0.1.0",
     "twit": "^2.2.11"
   },
